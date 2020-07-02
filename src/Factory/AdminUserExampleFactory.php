@@ -8,7 +8,9 @@ use Sylius\Bundle\CoreBundle\Fixture\Factory\AdminUserExampleFactory as BaseAdmi
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\OptionsResolver\LazyOption;
 use Sylius\Component\Core\Model\AdminUserInterface;
+use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\Config\FileLocatorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RbacPlugin\Entity\AdministrationRoleInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
