@@ -24,11 +24,13 @@ final class AdminUserExampleFactory extends BaseAdminUserExampleFactory implemen
     public function __construct(
         FactoryInterface $userFactory,
         RepositoryInterface $administrationRoleRepository,
-        string $localeCode
+        string $localeCode,
+        ?FileLocatorInterface $fileLocator = null,
+        ?ImageUploaderInterface $imageUploader = null
     ) {
         $this->administrationRoleRepository = $administrationRoleRepository;
 
-        parent::__construct($userFactory, $localeCode);
+        parent::__construct($userFactory, $localeCode, $fileLocator, $imageUploader);
 
         $this->optionsResolver = new OptionsResolver();
 
