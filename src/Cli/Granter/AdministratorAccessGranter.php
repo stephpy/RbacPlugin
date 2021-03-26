@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RbacPlugin\Cli\Granter;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RbacPlugin\Access\Model\OperationType;
 use Sylius\RbacPlugin\Entity\AdministrationRole;
@@ -40,7 +40,8 @@ final class AdministratorAccessGranter implements AdministratorAccessGranterInte
 
         if (null === $admin) {
             throw new \InvalidArgumentException(
-                sprintf('Administrator with email address %s does not exist. Aborting.', $email))
+                sprintf('Administrator with email address %s does not exist. Aborting.', $email)
+            )
             ;
         }
 
@@ -50,7 +51,8 @@ final class AdministratorAccessGranter implements AdministratorAccessGranterInte
             $administrationRole->addPermission(
                 Permission::ofType(
                     $section,
-                    [OperationType::read(), OperationType::write()])
+                    [OperationType::read(), OperationType::write()]
+                )
             );
         }
 

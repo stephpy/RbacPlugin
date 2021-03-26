@@ -21,8 +21,8 @@ final class AdminUserTypeExtension extends AbstractTypeExtension
         ]);
     }
 
-    public function getExtendedType(): string
+    public function getExtendedTypes(): iterable
     {
-        return AdminUserType::class;
+        return [AdminUserType::class];
     }
 }
