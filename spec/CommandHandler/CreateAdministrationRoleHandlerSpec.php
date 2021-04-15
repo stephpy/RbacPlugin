@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RbacPlugin\CommandHandler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\RbacPlugin\Access\Model\OperationType;
 use Sylius\RbacPlugin\Command\CreateAdministrationRole;
@@ -16,7 +16,7 @@ use Sylius\RbacPlugin\Validator\AdministrationRoleValidatorInterface;
 
 final class CreateAdministrationRoleHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectManager $administrationRoleManager,
         AdministrationRoleFactoryInterface $administrationRoleFactory,
         AdministrationRoleValidatorInterface $administrationRoleValidator
@@ -29,7 +29,7 @@ final class CreateAdministrationRoleHandlerSpec extends ObjectBehavior
         );
     }
 
-    function it_handles_command_and_persists_new_administration_role(
+    public function it_handles_command_and_persists_new_administration_role(
         ObjectManager $administrationRoleManager,
         AdministrationRoleFactoryInterface $administrationRoleFactory,
         AdministrationRoleInterface $administrationRole,
@@ -47,7 +47,8 @@ final class CreateAdministrationRoleHandlerSpec extends ObjectBehavior
         $administrationRole->getPermissions()->willReturn([$catalogManagementPermission, $configurationPermission]);
 
         $administrationRoleFactory
-            ->createWithNameAndPermissions('Product Manager',
+            ->createWithNameAndPermissions(
+                'Product Manager',
                 [
                     'catalog_management' => [OperationType::READ],
                     'configuration' => [OperationType::READ],
@@ -72,7 +73,7 @@ final class CreateAdministrationRoleHandlerSpec extends ObjectBehavior
         ));
     }
 
-    function it_propagates_an_exception_when_administration_role_is_not_valid(
+    public function it_propagates_an_exception_when_administration_role_is_not_valid(
         AdministrationRoleInterface $administrationRole,
         AdministrationRoleFactoryInterface $administrationRoleFactory,
         AdministrationRoleValidatorInterface $administrationRoleValidator
@@ -92,7 +93,7 @@ final class CreateAdministrationRoleHandlerSpec extends ObjectBehavior
                     'catalog_management' => [OperationType::READ],
                     'configuration' => [OperationType::READ],
                 ]
-        )->willReturn($administrationRole);
+            )->willReturn($administrationRole);
 
         $administrationRoleValidator
             ->validate($administrationRole, 'sylius_rbac_admin_administration_role_create')

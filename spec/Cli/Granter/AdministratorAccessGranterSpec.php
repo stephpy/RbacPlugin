@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RbacPlugin\Cli\Granter;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -14,7 +14,7 @@ use Tests\Application\RbacPlugin\Entity\AdminUser;
 
 final class AdministratorAccessGranterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RepositoryInterface $administratorRepository,
         RepositoryInterface $administrationRoleRepository,
         ObjectManager $objectManager
@@ -22,12 +22,12 @@ final class AdministratorAccessGranterSpec extends ObjectBehavior
         $this->beConstructedWith($administratorRepository, $administrationRoleRepository, $objectManager);
     }
 
-    function it_implements_administrator_access_granter_interface(): void
+    public function it_implements_administrator_access_granter_interface(): void
     {
         $this->shouldImplement(AdministratorAccessGranterInterface::class);
     }
 
-    function it_throws_an_exception_if_administrator_does_not_exist(RepositoryInterface $administratorRepository): void
+    public function it_throws_an_exception_if_administrator_does_not_exist(RepositoryInterface $administratorRepository): void
     {
         $administratorRepository->findOneBy(['email' => 'sylius@example.com'])->willReturn(null);
 
@@ -36,7 +36,7 @@ final class AdministratorAccessGranterSpec extends ObjectBehavior
             ->during('__invoke', ['sylius@example.com', 'configurator', ['configuration']]);
     }
 
-    function it_creates_administration_role_if_does_not_exist(
+    public function it_creates_administration_role_if_does_not_exist(
         RepositoryInterface $administratorRepository,
         RepositoryInterface $administrationRoleRepository,
         ObjectManager $objectManager,
@@ -58,7 +58,7 @@ final class AdministratorAccessGranterSpec extends ObjectBehavior
         $this->__invoke('sylius@example.com', 'Configurator', []);
     }
 
-    function it_assigns_administration_role_to_administrator(
+    public function it_assigns_administration_role_to_administrator(
         RepositoryInterface $administratorRepository,
         RepositoryInterface $administrationRoleRepository,
         ObjectManager $objectManager,

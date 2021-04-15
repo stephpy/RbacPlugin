@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RbacPlugin\CommandHandler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RbacPlugin\Access\Model\OperationType;
@@ -17,7 +17,7 @@ use Sylius\RbacPlugin\Validator\AdministrationRoleValidatorInterface;
 
 final class UpdateAdministrationRoleHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectManager $administrationRoleManager,
         AdministrationRoleFactoryInterface $administrationRoleFactory,
         RepositoryInterface $administrationRoleRepository,
@@ -32,7 +32,7 @@ final class UpdateAdministrationRoleHandlerSpec extends ObjectBehavior
         );
     }
 
-    function it_handles_command_and_updates_administration_role_with_given_id(
+    public function it_handles_command_and_updates_administration_role_with_given_id(
         ObjectManager $administrationRoleManager,
         AdministrationRoleFactoryInterface $administrationRoleFactory,
         RepositoryInterface $administrationRoleRepository,
@@ -58,7 +58,8 @@ final class UpdateAdministrationRoleHandlerSpec extends ObjectBehavior
         );
 
         $administrationRoleFactory
-            ->createWithNameAndPermissions('Sales Manager',
+            ->createWithNameAndPermissions(
+                'Sales Manager',
                 [
                     'sales_management' => [OperationType::READ, OperationType::WRITE],
                     'customers_management' => [OperationType::READ],
@@ -95,7 +96,7 @@ final class UpdateAdministrationRoleHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_propagates_an_exception_when_administration_role_is_not_valid(
+    public function it_propagates_an_exception_when_administration_role_is_not_valid(
         AdministrationRoleInterface $administrationRole,
         AdministrationRoleFactoryInterface $administrationRoleFactory,
         AdministrationRoleValidatorInterface $administrationRoleValidator
@@ -126,7 +127,7 @@ final class UpdateAdministrationRoleHandlerSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->during('__invoke', [$command]);
     }
 
-    function it_propagates_an_exception_when_administration_role_does_not_exist(
+    public function it_propagates_an_exception_when_administration_role_does_not_exist(
         RepositoryInterface $administrationRoleRepository
     ): void {
         $administrationRoleRepository->find(1)->willReturn(null);
@@ -135,9 +136,10 @@ final class UpdateAdministrationRoleHandlerSpec extends ObjectBehavior
             '__invoke',
             [
                 new UpdateAdministrationRole(
-                1,
-                'Product Manager',
-                [Permission::CONFIGURATION_PERMISSION, Permission::CATALOG_MANAGEMENT_PERMISSION]),
+                    1,
+                    'Product Manager',
+                    [Permission::CONFIGURATION_PERMISSION, Permission::CATALOG_MANAGEMENT_PERMISSION]
+                ),
             ]
         );
     }
